@@ -7,6 +7,19 @@ function readData() {
   const fs = require('fs');
   const buffer = fs.readFileSync('data.txt', 'utf8');
   const dataString = buffer.toString();
-  console.log({ dataString: dataString.split('\n') });
+  return dataString.split('\n');
 }
-readData();
+
+function convertTo2DArray(calories) {
+  const data2D = [[]];
+  calories.forEach((calorie) => {
+    if (calorie === '') {
+      data2D.push([]);
+    } else {
+      data2D[data2D.length - 1].push(+calorie);
+    }
+  });
+  console.log(data2D);
+  return data2D;
+}
+console.log(convertTo2DArray(readData()));
