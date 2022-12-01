@@ -32,5 +32,16 @@ function findMostCalories() {
   const totals = findTotals(calories2D);
   return Math.max(...totals);
 }
-//
+//--- Day 1: Calorie Counting ---
 console.log(findMostCalories());
+
+//--- Day 2: Find sum of top3 ---
+
+function findTop3() {
+  const calories = readData();
+  const calories2D = convertTo2DArray(calories);
+  const totals = findTotals(calories2D);
+  const sortedCalories = totals.sort((a, b) => b - a);
+  return sortedCalories.slice(0, 3).reduce((sum, total) => sum + total, 0);
+}
+console.log(findTop3());
