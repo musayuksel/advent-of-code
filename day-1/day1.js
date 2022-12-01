@@ -19,7 +19,6 @@ function convertTo2DArray(calories) {
       data2D[data2D.length - 1].push(+calorie);
     }
   });
-  // console.log(data2D);
   return data2D;
 }
 
@@ -27,5 +26,11 @@ function findTotals(calories2D) {
  return  calories2D.map(calories => calories.reduce((sum, calorie) => sum + calorie, 0));
 }
 
-console.log(findTotals(convertTo2DArray(readData())));
-console.log(findTotals([[1000,2000,3000],[4000]]));
+function findMostCalories() {
+  const calories = readData();
+  const calories2D = convertTo2DArray(calories);
+  const totals = findTotals(calories2D);
+  return Math.max(...totals);
+}
+//
+console.log(findMostCalories());
