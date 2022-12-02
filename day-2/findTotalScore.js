@@ -4,7 +4,7 @@ function readData() {
   const dataString = buffer.toString();
   return dataString.split('\n');
 }
-console.log(readData().length);
+
 const possibleCombinations = {
   'A X': 4,
   'A Y': 8,
@@ -16,3 +16,12 @@ const possibleCombinations = {
   'C Y': 2,
   'C Z': 6,
 };
+
+function findTotalScore() {
+  const data = readData();
+  return data.reduce(
+    (sum, roundMove) => sum + possibleCombinations[roundMove],
+    0
+  );
+}
+console.log(readData(), {findTotalScore:findTotalScore()});//[ 'A Y', 'B X', 'C Z' ] { findTotalScore: 15 }
