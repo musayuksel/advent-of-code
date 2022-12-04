@@ -4,10 +4,18 @@
 //if the second part includes the first part char then add that char and its value to the object
 // find the sum of the values in the object
 function readData() {
-    const fs = require('fs');
-    const buffer = fs.readFileSync('data.txt', 'utf8');
-    const dataString = buffer.toString();
-    return dataString.split('\n');
-  }
+  const fs = require('fs');
+  const buffer = fs.readFileSync('data.txt', 'utf8');
+  const dataString = buffer.toString();
+  return dataString.split('\n');
+}
 
-console.log(readData());
+function sliceText(textArray) {
+  //{left:'vJrwpWtwJgWr', right:'JgWr'}
+  return textArray.map((text) => ({
+    left: text.slice(0, text.length / 2),
+    right: text.slice(text.length / 2),
+  }));
+}
+
+console.log(sliceText(readData()));
