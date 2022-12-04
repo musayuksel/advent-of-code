@@ -24,10 +24,22 @@ function sliceText(textArray) {
   });
 }
 
+function isPairsContainOther(pair) {
+  // pair = { leftStart: 2, leftEnd: 8, rightStart: 3, rightEnd: 7 }
+  // isLeftContainRight = 3 >=2 && 7 <= 8
+  // isRightContainLeft = 2 >= 3 && 8 <= 7
+  const { leftStart, leftEnd, rightStart, rightEnd } = pair;
+  const isLeftContainRight = rightStart >= leftStart && rightEnd <= leftEnd;
+  const isRightContainLeft = leftStart >= rightStart && leftEnd <= rightEnd;
+  return isLeftContainRight || isRightContainLeft;
+}
+
 function findPairsContainOther() {
   const pairs = readData();
   const slicedTexts = sliceText(pairs);
-  console.log({ pairs, slicedTexts });
+  const pairsContainOther = slicedTexts.filter(isPairsContainOther);
+  //   console.log({ pairs, slicedTexts,pairsContainOther });
+  return pairsContainOther.length;
 }
 
-findPairsContainOther();
+console.log({ pairsLengthContainOther: findPairsContainOther() });
