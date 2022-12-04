@@ -39,18 +39,22 @@ function findTotalValueOfOneObject(object) {
   return Object.values(object).reduce((sum, value) => sum + value, 0);
 }
 
+function findSumOfValuesOfAllObjects(commonLettersAndValues) {
+  return commonLettersAndValues.reduce((sum, object) => {
+    return sum + findTotalValueOfOneObject(object);
+  }, 0);
+}
+
 function sumOfPriorityItems() {
   const data = readData();
   const slicedTexts = sliceText(data);
   const commonLettersAndValues = findTheCommonLettersAndValues(slicedTexts);
   console.log({ commonLettersAndValues });
 
-  return commonLettersAndValues.reduce((sum, object) => {
-    return sum + findTotalValueOfOneObject(object);
-  }, 0);
+  return findSumOfValuesOfAllObjects(commonLettersAndValues);
 }
 
-// console.log(sumOfPriorityItems());
+console.log(sumOfPriorityItems());
 
 // ------------ Part 2
 //Group data by 3 lines
@@ -88,8 +92,6 @@ function sumOfGroupedData() {
     const commonLettersAndValues = findTheCommonLettersAndValuesForGroup(groupedData);
     console.log({ commonLettersAndValues });
 
-    return commonLettersAndValues.reduce((sum, object) => {
-        return sum + findTotalValueOfOneObject(object);
-    }, 0);
+    return findSumOfValuesOfAllObjects(commonLettersAndValues);
 }
 console.log(sumOfGroupedData())
