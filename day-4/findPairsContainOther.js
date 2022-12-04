@@ -9,9 +9,25 @@ function readData() {
   return dataString.split('\n');
 }
 
+function sliceText(textArray) {
+  //['2-4,6-8] => [{leftStart: 2, leftEnd: 4, rightStart: 6, rightEnd: 8}]
+  return textArray.map((text) => {
+    const [left, right] = text.split(',');
+    const [leftStart, leftEnd] = left.split('-');
+    const [rightStart, rightEnd] = right.split('-');
+    return {
+      leftStart: Number(leftStart),
+      leftEnd: Number(leftEnd),
+      rightStart: Number(rightStart),
+      rightEnd: Number(rightEnd),
+    };
+  });
+}
+
 function findPairsContainOther() {
   const pairs = readData();
-  console.log({ pairs });
+  const slicedTexts = sliceText(pairs);
+  console.log({ pairs, slicedTexts });
 }
 
 findPairsContainOther();
