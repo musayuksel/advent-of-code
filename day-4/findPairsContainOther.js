@@ -43,3 +43,35 @@ function findPairsContainOther() {
 }
 
 console.log({ pairsLengthContainOther: findPairsContainOther() });
+
+// ------------ Part 2
+function isPairsContainOtherWithNewCondition(pair) {
+  // pair = { leftStart: 2, leftEnd: 6, rightStart: 4, rightEnd: 8 }
+  // isLeftContainRight = 4 >=2 && 4 <= 6 || 8 >= 2 && 8 <= 6
+  // isRightContainLeft = 2 >= 4 && 2 <= 8 || 6 >= 4 && 6 <= 8
+
+  const { leftStart, leftEnd, rightStart, rightEnd } = pair;
+  const isLeftContainRight =
+    (rightStart >= leftStart && rightStart <= leftEnd) ||
+    (rightEnd >= leftStart && rightEnd <= leftEnd);
+    
+  const isRightContainLeft =
+    (leftStart >= rightStart && leftStart <= rightEnd) ||
+    (leftEnd >= rightStart && leftEnd <= rightEnd);
+
+  return isLeftContainRight || isRightContainLeft;
+}
+
+function findPairsContainOtherWithNewCondition() {
+  const pairs = readData();
+  const slicedTexts = sliceText(pairs);
+  const pairsContainOther = slicedTexts.filter(
+    isPairsContainOtherWithNewCondition
+  );
+
+  return pairsContainOther.length;
+}
+
+console.log({
+  pairsLengthContainOther: findPairsContainOtherWithNewCondition(),
+});
