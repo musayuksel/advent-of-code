@@ -35,7 +35,7 @@ function findTheCommonLettersAndValues(slicedTextArray) {
 }
 
 function findTotalValueOfOneObject(object) {
-    //if one object includes more than one common char {A: 1, B: 2} => 3
+  //if one object includes more than one common char {A: 1, B: 2} => 3
   return Object.values(object).reduce((sum, value) => sum + value, 0);
 }
 
@@ -50,4 +50,46 @@ function sumOfPriorityItems() {
   }, 0);
 }
 
-console.log(sumOfPriorityItems());
+// console.log(sumOfPriorityItems());
+
+// ------------ Part 2
+//Group data by 3 lines
+// find the common letters and values for each group
+//find the total value of each group
+
+function groupDataByThreeLines(data) {
+  const groupedData = [];
+  for (let i = 0; i < data.length; i += 3) {
+    groupedData.push(data.slice(i, i + 3));
+  }
+  return groupedData;
+}
+
+function findTheCommonLettersAndValuesForGroup(groupedData) {
+    const allLetters = '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return groupedData.map((group) => {
+        const commonLettersAndValues = {};
+        group[0].split('').forEach((letter) => {
+        if (
+            group[1].includes(letter) &&
+            group[2].includes(letter) &&
+            !commonLettersAndValues[letter]
+        ) {
+            commonLettersAndValues[letter] = allLetters.indexOf(letter);
+        }
+        });
+        return commonLettersAndValues;
+    });
+}
+
+function sumOfGroupedData() {
+    const data = readData();
+    const groupedData = groupDataByThreeLines(data);
+    const commonLettersAndValues = findTheCommonLettersAndValuesForGroup(groupedData);
+    console.log({ commonLettersAndValues });
+
+    return commonLettersAndValues.reduce((sum, object) => {
+        return sum + findTotalValueOfOneObject(object);
+    }, 0);
+}
+console.log(sumOfGroupedData())
