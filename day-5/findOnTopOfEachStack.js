@@ -26,6 +26,8 @@ function sliceDataIntoStackAndMoves(data) {
 
 function prepareStackObject(stack, stackNumbers) {
   // stackObject = { '1':['N','Z'], '2':['D','C','M'], '3':['P'] }
+  // new item will be added to the top of the stack
+  // first index will be the top of the stack and will shift first //LIFO
   const stackObject = {};
   stackNumbers.forEach((number, index) => {
     if (number !== ' ') {
