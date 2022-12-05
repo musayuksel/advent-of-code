@@ -53,11 +53,21 @@ function prepareMovesArray(moves) {
   });
 }
 
+function moveAllItems(stackObject, movesArray) {
+  movesArray.forEach((move) => {
+    for (let i = 0; i < move.moveCount; i++) {
+      const item = stackObject[move.from].shift();
+      !!item && stackObject[move.to].unshift(item);
+    }
+  });
+}
+
 function findOnTopOfEachStack() {
   const [stack, moves] = sliceDataIntoStackAndMoves(readData());
   const stackNumbers = stack.pop().split(''); // [' ', '1', ' ', ' ',' ', '2', ' ', ' ',' ', '3', ' ']
   const stackObject = prepareStackObject(stack, stackNumbers);
   const movesArray = prepareMovesArray(moves);
+  moveAllItems(stackObject, movesArray);
   console.log({ stack, moves, stackNumbers, stackObject, movesArray });
 }
 findOnTopOfEachStack();
