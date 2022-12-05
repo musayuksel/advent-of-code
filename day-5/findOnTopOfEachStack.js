@@ -64,12 +64,24 @@ function moveAllItems(stackObject, movesArray) {
   });
 }
 
+function getTopOfEachStack(stackObject) {
+  // stackObject = { '1':['N','Z'], '2':['D','C','M'], '3':['P'] }
+  // topOfEachStack = ['N', 'D', 'P']
+  const topOfEachStack = [];
+  for (const key in stackObject) {
+    stackObject[key][0] && topOfEachStack.push(stackObject[key][0]);
+  }
+  return topOfEachStack.join('');
+}
+
 function findOnTopOfEachStack() {
   const [stack, moves] = sliceDataIntoStackAndMoves(readData());
   const stackNumbers = stack.pop().split(''); // [' ', '1', ' ', ' ',' ', '2', ' ', ' ',' ', '3', ' ']
   const stackObject = prepareStackObject(stack, stackNumbers);
   const movesArray = prepareMovesArray(moves);
   moveAllItems(stackObject, movesArray);
-  console.log({ stack, moves, stackNumbers, stackObject, movesArray });
+  const topOfEachStack = getTopOfEachStack(stackObject);
+  //   console.log({ stack, moves, stackNumbers, stackObject, movesArray });
+  console.log({ topOfEachStack });
 }
 findOnTopOfEachStack();
