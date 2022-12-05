@@ -24,14 +24,30 @@ function sliceDataIntoStackAndMoves(data) {
   ]);
 }
 
+function prepareStackObject(stack, stackNumbers) {
+  // stackObject = { '1':['N','Z'], '2':['D','C','M'], '3':['P'] }
+  const stackObject = {};
+  stackNumbers.forEach((number, index) => {
+    if (number !== ' ') {
+      if (!stackObject[number]) {
+        stackObject[number] = [];
+      }
+      stack.forEach((stackLine) => {
+        //if stackLine[index] is not empty
+        //then push it to stackObject[number]
+        if (stackLine[index] !== ' ') {
+          stackObject[number].push(stackLine[index]);
+        }
+      });
+    }
+  });
+  return stackObject;
+}
+
 function findOnTopOfEachStack() {
   const [stack, moves] = sliceDataIntoStackAndMoves(readData());
   const stackNumbers = stack.pop().split(''); // [' ', '1', ' ', ' ',' ', '2', ' ', ' ',' ', '3', ' ']
-  console.log({ stack, moves, stackNumbers });
+  const stackObject = prepareStackObject(stack, stackNumbers);
+  console.log({ stack, moves, stackNumbers, stackObject });
 }
 findOnTopOfEachStack();
-console.log(
-  readData()[2]
-    .split('')
-    .map((text, index) => `index: ${index} text: ${text}`)
-);
