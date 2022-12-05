@@ -44,10 +44,20 @@ function prepareStackObject(stack, stackNumbers) {
   return stackObject;
 }
 
+function prepareMovesArray(moves) {
+  // moves = ['move 1 from 2 to 1', 'move 3 from 1 to 3', 'move 2 from 2 to 1', 'move 1 from 1 to 2']
+  // movesArray = [{moveCount: '1', from: '2', to: '1'}, {moveCount: '3', from: '1', to: '3'}, {moveCount: '2', from: '2', to: '1'}, {moveCount: '1', from: '1', to: '2'}]
+  return moves.map((move) => {
+    const [space1, moveCount, space2, from, space3, to] = move.split(' ');
+    return { moveCount: +moveCount, from, to };
+  });
+}
+
 function findOnTopOfEachStack() {
   const [stack, moves] = sliceDataIntoStackAndMoves(readData());
   const stackNumbers = stack.pop().split(''); // [' ', '1', ' ', ' ',' ', '2', ' ', ' ',' ', '3', ' ']
   const stackObject = prepareStackObject(stack, stackNumbers);
-  console.log({ stack, moves, stackNumbers, stackObject });
+  const movesArray = prepareMovesArray(moves);
+  console.log({ stack, moves, stackNumbers, stackObject, movesArray });
 }
 findOnTopOfEachStack();
