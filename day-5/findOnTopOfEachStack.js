@@ -24,4 +24,14 @@ function sliceDataIntoStackAndMoves(data) {
   ]);
 }
 
-console.log(sliceDataIntoStackAndMoves(readData()));
+function findOnTopOfEachStack() {
+  const [stack, moves] = sliceDataIntoStackAndMoves(readData());
+  const stackNumbers = stack.pop().split(''); // [' ', '1', ' ', ' ',' ', '2', ' ', ' ',' ', '3', ' ']
+  console.log({ stack, moves, stackNumbers });
+}
+findOnTopOfEachStack();
+console.log(
+  readData()[2]
+    .split('')
+    .map((text, index) => `index: ${index} text: ${text}`)
+);
