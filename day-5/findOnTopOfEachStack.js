@@ -84,4 +84,31 @@ function findOnTopOfEachStack() {
   //   console.log({ stack, moves, stackNumbers, stackObject, movesArray });
   console.log({ topOfEachStack });
 }
-findOnTopOfEachStack();
+// findOnTopOfEachStack();
+
+// ----------------------------Part 2---------------------------
+
+function moveAllItemsPart2(stackObject, movesArray) {
+
+  movesArray.forEach((move) => {
+    const fromStack = [];
+    for (let i = 0; i < move.moveCount; i++) {
+      const item = stackObject[move.from].shift();
+        !!item && fromStack.push(item);
+    }
+    fromStack.length > 0 && stackObject[move.to].unshift(...fromStack);
+});
+}
+
+function findOnTopOfEachStackPart2() {
+    const [stack, moves] = sliceDataIntoStackAndMoves(readData());
+    const stackNumbers = stack.pop().split(''); // [' ', '1', ' ', ' ',' ', '2', ' ', ' ',' ', '3', ' ']
+    const stackObject = prepareStackObject(stack, stackNumbers);
+    const movesArray = prepareMovesArray(moves);
+    // console.log({  stackObjectBEFORE: stackObject });
+    moveAllItemsPart2(stackObject, movesArray);
+    const topOfEachStack = getTopOfEachStack(stackObject);
+    //   console.log({  movesArray,stackObject });
+    console.log({ topOfEachStackPART2:topOfEachStack });
+  }
+  findOnTopOfEachStackPart2();
