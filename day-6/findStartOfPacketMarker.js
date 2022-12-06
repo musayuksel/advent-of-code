@@ -27,3 +27,21 @@ function findStartOfPacketMarker() {
   return firstUniqueMarkerIndex;
 }
 findStartOfPacketMarker();
+
+// ------------------------------ Part 2 ------------------------------
+function findFirstUniqueMarkerIndexPart2(data) {
+  for (let i = 0; i < data.length; i++) {
+    const fourCharacters = data.slice(i, i + 14);
+    if (isStringUnique(fourCharacters)) {
+      return i + 14; //+14 because we want to return the index of the last character of the marker
+    }
+  }
+}
+
+function findStartOfMessageMarker() {
+  const data = readData();
+  const firstUniqueMesageMarkerIndex = findFirstUniqueMarkerIndexPart2(data);
+  console.log({ firstUniqueMesageMarkerIndex });
+  return firstUniqueMesageMarkerIndex;
+}
+findStartOfMessageMarker();
