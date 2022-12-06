@@ -8,8 +8,14 @@ function readData() {
 function findFirstUniqueMarkerIndex(data) {
   for (let i = 0; i < data.length; i++) {
     const fourCharacters = data.slice(i, i + 4);
-    console.log({ fourCharacters });
+    console.log({ fourCharacters }, isStringUnique(fourCharacters));
   }
+}
+
+function isStringUnique(string) {
+  const stringArray = string.split('');
+  const uniqueCharacters = [...new Set(stringArray)];
+  return uniqueCharacters.length === stringArray.length;
 }
 
 function findStartOfPacketMarker() {
