@@ -8,7 +8,9 @@ function readData() {
 function findFirstUniqueMarkerIndex(data) {
   for (let i = 0; i < data.length; i++) {
     const fourCharacters = data.slice(i, i + 4);
-    console.log({ fourCharacters }, isStringUnique(fourCharacters));
+    if (isStringUnique(fourCharacters)) {
+      return i + 4; //+4 because we want to return the index of the last character of the marker
+    }
   }
 }
 
@@ -20,7 +22,8 @@ function isStringUnique(string) {
 
 function findStartOfPacketMarker() {
   const data = readData();
-  console.log({ data });
-  findFirstUniqueMarkerIndex(data);
+  const firstUniqueMarkerIndex = findFirstUniqueMarkerIndex(data);
+  console.log({ data, firstUniqueMarkerIndex });
+  return firstUniqueMarkerIndex;
 }
 findStartOfPacketMarker();
