@@ -35,15 +35,14 @@ function readData() {
 function findCurrentPathObject(path, fileSystem) {
   let currentPathObject = fileSystem['/'];
   const pathParts = path !== '/' ? path.split('/') : [];
-  for (let i = 1; i < pathParts.length; i++) {
-    if (pathParts[i] === '') continue;
-    const pathPart = pathParts[i];
+
+  pathParts.forEach((pathPart) => {
+    if (pathPart === '') return;
     currentPathObject = currentPathObject[pathPart];
-  }
-  // console.log({ currentPathObject });
+  });
+
   return currentPathObject;
 }
-
 
 function convertCommandsToFileSystem(commands) {
   const fileSystem = {
@@ -55,18 +54,17 @@ function convertCommandsToFileSystem(commands) {
   commands.forEach((command) => {
     if (command.startsWith('$ cd ..')) {
       const pathParts = currentPath.split('/');
-      pathParts.pop();
-      pathParts.pop();
-      pathParts.push('');
+      //'/a/b/c'=> '/a/b/'
+      pathParts.splice(pathParts.length - 2, 1);
       currentPath = pathParts.join('/');
       currentPathObject = findCurrentPathObject(currentPath, fileSystem);
     } else if (command.startsWith('$ cd ')) {
       const path = command.split(' ')[2];
-      if (path === '/') return
+      if (path === '/') return;
       currentPath += path + '/';
       currentPathObject = findCurrentPathObject(currentPath, fileSystem);
     } else if (command.startsWith('$ ls')) {
-      return
+      return;
     } else if (command.startsWith('dir ')) {
       const path = command.split(' ')[1];
       if (!currentPathObject[path]) {
@@ -79,12 +77,12 @@ function convertCommandsToFileSystem(commands) {
       };
     }
   });
-  console.dir(fileSystem, { depth: null })
+  console.dir(fileSystem, { depth: null });
   return fileSystem;
 }
 
 function findSumOfTotalSizes() {
-  const data = readData();
-  convertCommandsToFileSystem(data);
+  const commands = readData();
+  convertCommandsToFileSystem(commands);
 }
 findSumOfTotalSizes();
