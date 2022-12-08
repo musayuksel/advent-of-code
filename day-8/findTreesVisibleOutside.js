@@ -80,13 +80,30 @@ function findAllHightsLeftOfCurrentTree(
   return hightsLeftOfCurrentTree;
 }
 
+function findAllHightsRightOfCurrentTree(
+  currentRowIndex,
+  currentColumnIndex,
+  grid
+) {
+  const hightsRightOfCurrentTree = [];
+  while (currentColumnIndex < grid[currentRowIndex].length - 1) {
+    const oneRightH = oneRightHight(currentRowIndex, currentColumnIndex, grid);
+    if (oneRightH !== undefined) {
+      hightsRightOfCurrentTree.push(oneRightH);
+    }
+    currentColumnIndex++;
+  }
+  return hightsRightOfCurrentTree;
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
   //   console.dir(grid, { depth: null });
-  console.log(findAllHightsLeftOfCurrentTree(0, 2, grid));
-//   console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
+  console.log(findAllHightsRightOfCurrentTree(4, 3, grid));
+  //   console.log(findAllHightsLeftOfCurrentTree(0, 2, grid));
+  //   console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
   //   console.log(findAllHightsAboveOfCurrentTree(1, 1, grid));
 }
 findTreesVisibleOutside();
