@@ -20,11 +20,23 @@ function oneUpHight(rowIndex, columnIndex, grid) {
   return grid[rowIndex - 1]?.[columnIndex].hight;
 }
 
+function oneDownHight(rowIndex, columnIndex, grid) {
+  return grid[rowIndex + 1]?.[columnIndex].hight;
+}
+
+function oneLeftHight(rowIndex, columnIndex, grid) {
+  return grid[rowIndex]?.[columnIndex - 1]?.hight;
+}
+
+function oneRightHight(rowIndex, columnIndex, grid) {
+  return grid[rowIndex]?.[columnIndex + 1]?.hight;
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
   console.dir(grid, { depth: null });
-  console.log(oneUpHight(1, 0, grid));
+  console.log(oneLeftHight(2, 2, grid));
 }
 findTreesVisibleOutside();
