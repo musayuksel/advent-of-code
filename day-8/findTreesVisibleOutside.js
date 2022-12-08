@@ -236,5 +236,9 @@ function findTreesVisibleOutsidePart2() {
         return { ...tree, scenicScore };
     });
     console.dir(treesVisibleOutsideWithScenicScore, { depth: null });
+    //find the biggest scenicScore
+    const biggestScenicScore = treesVisibleOutsideWithScenicScore.reduce(
+        (biggest, current) => biggest > current.scenicScore ? biggest : current.scenicScore);
+    console.log({ biggestScenicScore });
 }
 findTreesVisibleOutsidePart2();
