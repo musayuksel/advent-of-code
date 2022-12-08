@@ -192,7 +192,7 @@ function findTreesVisibleOutside() {
     console.log({ treesVisibleOutsideCount: treesVisibleOutside.length });
     return treesVisibleOutside.length;
 }
-// findTreesVisibleOutside();
+findTreesVisibleOutside();
 
 // ------------------------------ Part 2 ------------------------------
 
@@ -235,10 +235,11 @@ function findTreesVisibleOutsidePart2() {
             treesWithSameOrMoreHightRight;
         return { ...tree, scenicScore };
     });
-    console.dir(treesVisibleOutsideWithScenicScore, { depth: null });
+    // console.dir(treesVisibleOutsideWithScenicScore, { depth: null });
     //find the biggest scenicScore
     const biggestScenicScore = treesVisibleOutsideWithScenicScore.reduce(
         (biggest, current) => biggest > current.scenicScore ? biggest : current.scenicScore);
     console.log({ biggestScenicScore });
+    return biggestScenicScore;
 }
 findTreesVisibleOutsidePart2();
