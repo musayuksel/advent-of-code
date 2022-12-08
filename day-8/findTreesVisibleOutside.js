@@ -40,7 +40,7 @@ function findAllHightsAboveOfCurrentTree(
   const hightsAboveCurrentTree = [];
   while (currentRowIndex > 0) {
     const oneUpH = oneUpHight(currentRowIndex, currentColumnIndex, grid);
-    if (oneUpH) {
+    if (oneUpH !== undefined) {
       hightsAboveCurrentTree.push(oneUpH);
     }
     currentRowIndex--;
@@ -53,6 +53,7 @@ function findTreesVisibleOutside() {
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
   //   console.dir(grid, { depth: null });
-  console.log(findAllHightsAboveOfCurrentTree(4, 0, grid));
+//   console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
+  console.log(findAllHightsAboveOfCurrentTree(1, 1, grid));
 }
 findTreesVisibleOutside();
