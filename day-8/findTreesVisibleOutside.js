@@ -1,201 +1,240 @@
 function readData() {
-  const fs = require('fs');
-  const buffer = fs.readFileSync('data.txt', 'utf8');
-  const dataString = buffer.toString();
-  return dataString.split('\n');
+    const fs = require('fs');
+    const buffer = fs.readFileSync('data.txt', 'utf8');
+    const dataString = buffer.toString();
+    return dataString.split('\n');
 }
 
 function convertDataTo2DGrid(data) {
-  //['30373'] => [[{hight:3, rowIndex:0, columnIndex:0}], [{hight:0, rowIndex:0, columnIndex:1}], [{hight:3, rowIndex:0, columnIndex:2}], [{hight:7, rowIndex:0, columnIndex:3}], [{hight:3, rowIndex:0, columnIndex:4}]]
-  return data.map((row, rowIndex) => {
-    return row.split('').map((column, columnIndex) => ({
-      hight: parseInt(column),
-      rowIndex,
-      columnIndex,
-    }));
-  });
+    //['30373'] => [[{hight:3, rowIndex:0, columnIndex:0}], [{hight:0, rowIndex:0, columnIndex:1}], [{hight:3, rowIndex:0, columnIndex:2}], [{hight:7, rowIndex:0, columnIndex:3}], [{hight:3, rowIndex:0, columnIndex:4}]]
+    return data.map((row, rowIndex) => {
+        return row.split('').map((column, columnIndex) => ({
+            hight: parseInt(column),
+            rowIndex,
+            columnIndex,
+        }));
+    });
 }
 
 function oneUpHight(rowIndex, columnIndex, grid) {
-  return grid[rowIndex - 1]?.[columnIndex].hight;
+    return grid[rowIndex - 1]?.[columnIndex].hight;
 }
 
 function oneDownHight(rowIndex, columnIndex, grid) {
-  return grid[rowIndex + 1]?.[columnIndex].hight;
+    return grid[rowIndex + 1]?.[columnIndex].hight;
 }
 
 function oneLeftHight(rowIndex, columnIndex, grid) {
-  return grid[rowIndex]?.[columnIndex - 1]?.hight;
+    return grid[rowIndex]?.[columnIndex - 1]?.hight;
 }
 
 function oneRightHight(rowIndex, columnIndex, grid) {
-  return grid[rowIndex]?.[columnIndex + 1]?.hight;
+    return grid[rowIndex]?.[columnIndex + 1]?.hight;
 }
 
 function findAllHightsAboveOfCurrentTree(
-  currentRowIndex,
-  currentColumnIndex,
-  grid
+    currentRowIndex,
+    currentColumnIndex,
+    grid
 ) {
-  const hightsAboveCurrentTree = [];
-  while (currentRowIndex > 0) {
-    const oneUpH = oneUpHight(currentRowIndex, currentColumnIndex, grid);
-    if (oneUpH !== undefined) {
-      hightsAboveCurrentTree.push(oneUpH);
+    const hightsAboveCurrentTree = [];
+    while (currentRowIndex > 0) {
+        const oneUpH = oneUpHight(currentRowIndex, currentColumnIndex, grid);
+        if (oneUpH !== undefined) {
+            hightsAboveCurrentTree.push(oneUpH);
+        }
+        currentRowIndex--;
     }
-    currentRowIndex--;
-  }
-  return hightsAboveCurrentTree;
+    return hightsAboveCurrentTree;
 }
 
 function findAllHighsBlowOfCurrentTree(
-  currentRowIndex,
-  currentColumnIndex,
-  grid
+    currentRowIndex,
+    currentColumnIndex,
+    grid
 ) {
-  const hightsBlowCurrentTree = [];
-  while (currentRowIndex < grid.length - 1) {
-    const oneDownH = oneDownHight(currentRowIndex, currentColumnIndex, grid);
-    if (oneDownH !== undefined) {
-      hightsBlowCurrentTree.push(oneDownH);
+    const hightsBlowCurrentTree = [];
+    while (currentRowIndex < grid.length - 1) {
+        const oneDownH = oneDownHight(currentRowIndex, currentColumnIndex, grid);
+        if (oneDownH !== undefined) {
+            hightsBlowCurrentTree.push(oneDownH);
+        }
+        currentRowIndex++;
     }
-    currentRowIndex++;
-  }
-  return hightsBlowCurrentTree;
+    return hightsBlowCurrentTree;
 }
 
 function findAllHightsLeftOfCurrentTree(
-  currentRowIndex,
-  currentColumnIndex,
-  grid
+    currentRowIndex,
+    currentColumnIndex,
+    grid
 ) {
-  const hightsLeftOfCurrentTree = [];
-  while (currentColumnIndex > 0) {
-    const oneLeftH = oneLeftHight(currentRowIndex, currentColumnIndex, grid);
-    if (oneLeftH !== undefined) {
-      hightsLeftOfCurrentTree.push(oneLeftH);
+    const hightsLeftOfCurrentTree = [];
+    while (currentColumnIndex > 0) {
+        const oneLeftH = oneLeftHight(currentRowIndex, currentColumnIndex, grid);
+        if (oneLeftH !== undefined) {
+            hightsLeftOfCurrentTree.push(oneLeftH);
+        }
+        currentColumnIndex--;
     }
-    currentColumnIndex--;
-  }
-  return hightsLeftOfCurrentTree;
+    return hightsLeftOfCurrentTree;
 }
 
 function findAllHightsRightOfCurrentTree(
-  currentRowIndex,
-  currentColumnIndex,
-  grid
+    currentRowIndex,
+    currentColumnIndex,
+    grid
 ) {
-  const hightsRightOfCurrentTree = [];
-  while (currentColumnIndex < grid[currentRowIndex].length - 1) {
-    const oneRightH = oneRightHight(currentRowIndex, currentColumnIndex, grid);
-    if (oneRightH !== undefined) {
-      hightsRightOfCurrentTree.push(oneRightH);
+    const hightsRightOfCurrentTree = [];
+    while (currentColumnIndex < grid[currentRowIndex].length - 1) {
+        const oneRightH = oneRightHight(currentRowIndex, currentColumnIndex, grid);
+        if (oneRightH !== undefined) {
+            hightsRightOfCurrentTree.push(oneRightH);
+        }
+        currentColumnIndex++;
     }
-    currentColumnIndex++;
-  }
-  return hightsRightOfCurrentTree;
+    return hightsRightOfCurrentTree;
 }
 
 function findTreesWithHights(grid) {
-  return grid.flat().map((tree) => {
-    //find all trees' hights (above, blow, left, right)
-    // {
-    //     hight: 3,
-    //     rowIndex: 0,
-    //     columnIndex: 0,
-    //     hightsAboveCurrentTree: [],
-    //     hightsBlowCurrentTree: [ 2, 6, 3, 3 ],
-    //     hightsLeftOfCurrentTree: [],
-    //     hightsRightOfCurrentTree: [ 0, 3, 7, 3 ]
-    //   }
-    const { rowIndex, columnIndex } = tree;
-    const hightsAboveCurrentTree = findAllHightsAboveOfCurrentTree(
-      rowIndex,
-      columnIndex,
-      grid
-    );
-    const hightsBlowCurrentTree = findAllHighsBlowOfCurrentTree(
-      rowIndex,
-      columnIndex,
-      grid
-    );
-    const hightsLeftOfCurrentTree = findAllHightsLeftOfCurrentTree(
-      rowIndex,
-      columnIndex,
-      grid
-    );
-    const hightsRightOfCurrentTree = findAllHightsRightOfCurrentTree(
-      rowIndex,
-      columnIndex,
-      grid
-    );
-    return {
-      ...tree,
-      hightsAboveCurrentTree,
-      hightsBlowCurrentTree,
-      hightsLeftOfCurrentTree,
-      hightsRightOfCurrentTree,
-    };
-  });
+    return grid.flat().map((tree) => {
+        //find all trees' hights (above, blow, left, right)
+        // {
+        //     hight: 3,
+        //     rowIndex: 0,
+        //     columnIndex: 0,
+        //     hightsAboveCurrentTree: [],
+        //     hightsBlowCurrentTree: [ 2, 6, 3, 3 ],
+        //     hightsLeftOfCurrentTree: [],
+        //     hightsRightOfCurrentTree: [ 0, 3, 7, 3 ]
+        //   }
+        const { rowIndex, columnIndex } = tree;
+        const hightsAboveCurrentTree = findAllHightsAboveOfCurrentTree(
+            rowIndex,
+            columnIndex,
+            grid
+        );
+        const hightsBlowCurrentTree = findAllHighsBlowOfCurrentTree(
+            rowIndex,
+            columnIndex,
+            grid
+        );
+        const hightsLeftOfCurrentTree = findAllHightsLeftOfCurrentTree(
+            rowIndex,
+            columnIndex,
+            grid
+        );
+        const hightsRightOfCurrentTree = findAllHightsRightOfCurrentTree(
+            rowIndex,
+            columnIndex,
+            grid
+        );
+        return {
+            ...tree,
+            hightsAboveCurrentTree,
+            hightsBlowCurrentTree,
+            hightsLeftOfCurrentTree,
+            hightsRightOfCurrentTree,
+        };
+    });
 }
 
 function isHighBiggestThanHights(hight, hights) {
-  return hights.every((currentHight) => hight > currentHight);
+    return hights.every((currentHight) => hight > currentHight);
 }
 
 function filterTreesVisibleOutside(treesWithHights) {
-  return treesWithHights.filter((tree) => {
-    const {
-      hight,
-      hightsAboveCurrentTree,
-      hightsBlowCurrentTree,
-      hightsLeftOfCurrentTree,
-      hightsRightOfCurrentTree,
-    } = tree;
+    return treesWithHights.filter((tree) => {
+        const {
+            hight,
+            hightsAboveCurrentTree,
+            hightsBlowCurrentTree,
+            hightsLeftOfCurrentTree,
+            hightsRightOfCurrentTree,
+        } = tree;
 
-    const isBiggerThanHightsAbove = isHighBiggestThanHights(
-      hight,
-      hightsAboveCurrentTree
-    );
+        const isBiggerThanHightsAbove = isHighBiggestThanHights(
+            hight,
+            hightsAboveCurrentTree
+        );
 
-    const isBiggerThanHightsBlow = isHighBiggestThanHights(
-      hight,
-      hightsBlowCurrentTree
-    );
+        const isBiggerThanHightsBlow = isHighBiggestThanHights(
+            hight,
+            hightsBlowCurrentTree
+        );
 
-    const isBiggerThanHightsLeft = isHighBiggestThanHights(
-      hight,
-      hightsLeftOfCurrentTree
-    );
+        const isBiggerThanHightsLeft = isHighBiggestThanHights(
+            hight,
+            hightsLeftOfCurrentTree
+        );
 
-    const isBiggerThanHightsRight = isHighBiggestThanHights(
-      hight,
-      hightsRightOfCurrentTree
-    );
+        const isBiggerThanHightsRight = isHighBiggestThanHights(
+            hight,
+            hightsRightOfCurrentTree
+        );
 
-    return (
-      isBiggerThanHightsAbove ||
-      isBiggerThanHightsBlow ||
-      isBiggerThanHightsLeft ||
-      isBiggerThanHightsRight
-    );
-  });
+        return (
+            isBiggerThanHightsAbove ||
+            isBiggerThanHightsBlow ||
+            isBiggerThanHightsLeft ||
+            isBiggerThanHightsRight
+        );
+    });
 }
-
 
 function findTreesVisibleOutside() {
-  const data = readData();
-  const grid = convertDataTo2DGrid(data);
-  const treesWithHights = findTreesWithHights(grid);
+    const data = readData();
+    const grid = convertDataTo2DGrid(data);
+    const treesWithHights = findTreesWithHights(grid);
 
-  //filter treesWithHights that have bigger hights from above || blow || left || right
-  const treesVisibleOutside = filterTreesVisibleOutside(treesWithHights);
-  console.log({ treesVisibleOutsideCount: treesVisibleOutside.length });
-  return treesVisibleOutside.length;
+    //filter treesWithHights that have bigger hights from above || blow || left || right
+    const treesVisibleOutside = filterTreesVisibleOutside(treesWithHights);
+    console.log({ treesVisibleOutsideCount: treesVisibleOutside.length });
+    return treesVisibleOutside.length;
 }
-findTreesVisibleOutside();
+// findTreesVisibleOutside();
 
 // ------------------------------ Part 2 ------------------------------
 
-function findTreesVisibleOutsidePart2() {}
-// findTreesVisibleOutsidePart2();
+function findVisibleTreeCountInOneWay(hight, hightsOfTreesInOneWay) {
+    //hight:5
+    // hightsOfTreesInOneWay: [ 3, 5, 3 ] => 2 trees are visible
+    // hightsOfTreesInOneWay [ 2, 3, 1 ] => 3 trees are visible
+    // hightsOfTreesInOneWay [] => 0 tree is visible
+    if (hightsOfTreesInOneWay.length === 0) return 0;
+    return (
+        hightsOfTreesInOneWay.findIndex((tree) => tree >= hight) + 1 ||
+        hightsOfTreesInOneWay.length
+    );
+}
+function findTreesVisibleOutsidePart2() {
+    const data = readData();
+    const grid = convertDataTo2DGrid(data);
+    const treesWithHights = findTreesWithHights(grid);
+    const treesVisibleOutside = filterTreesVisibleOutside(treesWithHights);
+
+    //UP IS THE SAME AS PART 1
+    const treesVisibleOutsideWithScenicScore = treesVisibleOutside.map((tree) => {
+        const {
+            hight,
+            hightsAboveCurrentTree,
+            hightsBlowCurrentTree,
+            hightsLeftOfCurrentTree,
+            hightsRightOfCurrentTree,
+        } = tree;
+
+        const treesWithSameOrMoreHightAbove = findVisibleTreeCountInOneWay(hight, hightsAboveCurrentTree);
+        const treesWithSameOrMoreHightBlow = findVisibleTreeCountInOneWay(hight, hightsBlowCurrentTree);
+        const treesWithSameOrMoreHightLeft = findVisibleTreeCountInOneWay(hight, hightsLeftOfCurrentTree);
+        const treesWithSameOrMoreHightRight = findVisibleTreeCountInOneWay(hight, hightsRightOfCurrentTree);
+
+        const scenicScore =
+            treesWithSameOrMoreHightAbove *
+            treesWithSameOrMoreHightBlow *
+            treesWithSameOrMoreHightLeft *
+            treesWithSameOrMoreHightRight;
+        return { ...tree, scenicScore };
+    });
+    console.dir(treesVisibleOutsideWithScenicScore, { depth: null });
+}
+findTreesVisibleOutsidePart2();
