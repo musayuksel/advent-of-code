@@ -16,10 +16,15 @@ function convertDataTo2DGrid(data) {
   });
 }
 
+function oneUpHight(rowIndex, columnIndex, grid) {
+  return grid[rowIndex - 1]?.[columnIndex].hight;
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
   console.dir(grid, { depth: null });
+  console.log(oneUpHight(1, 0, grid));
 }
 findTreesVisibleOutside();
