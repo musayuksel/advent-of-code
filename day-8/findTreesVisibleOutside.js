@@ -139,6 +139,10 @@ function findTreesWithHights(grid) {
   });
 }
 
+function isHighBiggestThanHights(hight, hights) {
+  return hights.every((currentHight) => hight > currentHight);
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
@@ -146,37 +150,32 @@ function findTreesVisibleOutside() {
 
   //filter treesWithHights that have bigger hights from above || blow || left || right
 
-    const treesVisibleOutside = treesWithHights.filter((tree) => {
+  const treesVisibleOutside = treesWithHights.filter((tree) => {
     const {
-        hight,
-        hightsAboveCurrentTree,
-        hightsBlowCurrentTree,
-        hightsLeftOfCurrentTree,
-        hightsRightOfCurrentTree,
-        } = tree;
+      hight,
+      hightsAboveCurrentTree,
+      hightsBlowCurrentTree,
+      hightsLeftOfCurrentTree,
+      hightsRightOfCurrentTree,
+    } = tree;
 
-    const isBiggerThanHightsAbove = hightsAboveCurrentTree.every(
-        (h) => hight > h
-    );
-    const isBiggerThanHightsBlow = hightsBlowCurrentTree.every(
-        (h) => hight > h
-    );
-    const isBiggerThanHightsLeft = hightsLeftOfCurrentTree.every(
-        (h) => hight > h
-    );
-    const isBiggerThanHightsRight = hightsRightOfCurrentTree.every(
-        (h) => hight > h
-    );
+    const isBiggerThanHightsAbove = isHighBiggestThanHights(hight, hightsAboveCurrentTree);
+
+    const isBiggerThanHightsBlow = isHighBiggestThanHights(hight, hightsBlowCurrentTree);
+
+    const isBiggerThanHightsLeft = isHighBiggestThanHights(hight, hightsLeftOfCurrentTree);
+
+    const isBiggerThanHightsRight = isHighBiggestThanHights(hight, hightsRightOfCurrentTree);
+
     return (
-        // (isNotInCorner &&
-        isBiggerThanHightsAbove ||
-        isBiggerThanHightsBlow ||  
-        isBiggerThanHightsLeft ||
-        isBiggerThanHightsRight
+      isBiggerThanHightsAbove ||
+      isBiggerThanHightsBlow ||
+      isBiggerThanHightsLeft ||
+      isBiggerThanHightsRight
     );
-    });
-  console.dir(treesWithHights, { depth: null });
-  console.log({treesVisibleOutsideCount:treesVisibleOutside.length});
-
+  });
+  //   console.dir(treesWithHights, { depth: null });
+    console.log({ treesVisibleOutsideCount: treesVisibleOutside.length });
+  return treesVisibleOutside.length;
 }
 findTreesVisibleOutside();
