@@ -99,11 +99,47 @@ function findAllHightsRightOfCurrentTree(
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
-  console.log({ data });
-  //   console.dir(grid, { depth: null });
-  console.log(findAllHightsRightOfCurrentTree(4, 3, grid));
-  //   console.log(findAllHightsLeftOfCurrentTree(0, 2, grid));
-  //   console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
-  //   console.log(findAllHightsAboveOfCurrentTree(1, 1, grid));
+  
+  const treesWithHights = grid.flat().map((tree) => {
+    //find all trees' hights (above, blow, left, right)
+    // {
+    //     hight: 3,
+    //     rowIndex: 0,
+    //     columnIndex: 0,
+    //     hightsAboveCurrentTree: [],
+    //     hightsBlowCurrentTree: [ 2, 6, 3, 3 ],
+    //     hightsLeftOfCurrentTree: [],
+    //     hightsRightOfCurrentTree: [ 0, 3, 7, 3 ]
+    //   }
+    const { rowIndex, columnIndex } = tree;
+    const hightsAboveCurrentTree = findAllHightsAboveOfCurrentTree(
+      rowIndex,
+      columnIndex,
+      grid
+    );
+    const hightsBlowCurrentTree = findAllHighsBlowOfCurrentTree(
+      rowIndex,
+      columnIndex,
+      grid
+    );
+    const hightsLeftOfCurrentTree = findAllHightsLeftOfCurrentTree(
+      rowIndex,
+      columnIndex,
+      grid
+    );
+    const hightsRightOfCurrentTree = findAllHightsRightOfCurrentTree(
+      rowIndex,
+      columnIndex,
+      grid
+    );
+    return {
+      ...tree,
+      hightsAboveCurrentTree,
+      hightsBlowCurrentTree,
+      hightsLeftOfCurrentTree,
+      hightsRightOfCurrentTree,
+    };
+  });
+  console.dir(treesWithHights, { depth: null });
 }
 findTreesVisibleOutside();
