@@ -32,11 +32,27 @@ function oneRightHight(rowIndex, columnIndex, grid) {
   return grid[rowIndex]?.[columnIndex + 1]?.hight;
 }
 
+function findAllHightsAboveOfCurrentTree(
+  currentRowIndex,
+  currentColumnIndex,
+  grid
+) {
+  const hightsAboveCurrentTree = [];
+  while (currentRowIndex > 0) {
+    const oneUpH = oneUpHight(currentRowIndex, currentColumnIndex, grid);
+    if (oneUpH) {
+      hightsAboveCurrentTree.push(oneUpH);
+    }
+    currentRowIndex--;
+  }
+  return hightsAboveCurrentTree;
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
-  console.dir(grid, { depth: null });
-  console.log(oneLeftHight(2, 2, grid));
+  //   console.dir(grid, { depth: null });
+  console.log(findAllHightsAboveOfCurrentTree(4, 0, grid));
 }
 findTreesVisibleOutside();
