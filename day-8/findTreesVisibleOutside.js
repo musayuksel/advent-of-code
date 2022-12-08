@@ -143,14 +143,8 @@ function isHighBiggestThanHights(hight, hights) {
   return hights.every((currentHight) => hight > currentHight);
 }
 
-function findTreesVisibleOutside() {
-  const data = readData();
-  const grid = convertDataTo2DGrid(data);
-  const treesWithHights = findTreesWithHights(grid);
-
-  //filter treesWithHights that have bigger hights from above || blow || left || right
-
-  const treesVisibleOutside = treesWithHights.filter((tree) => {
+function filterTreesVisibleOutside(treesWithHights) {
+  return treesWithHights.filter((tree) => {
     const {
       hight,
       hightsAboveCurrentTree,
@@ -159,13 +153,25 @@ function findTreesVisibleOutside() {
       hightsRightOfCurrentTree,
     } = tree;
 
-    const isBiggerThanHightsAbove = isHighBiggestThanHights(hight, hightsAboveCurrentTree);
+    const isBiggerThanHightsAbove = isHighBiggestThanHights(
+      hight,
+      hightsAboveCurrentTree
+    );
 
-    const isBiggerThanHightsBlow = isHighBiggestThanHights(hight, hightsBlowCurrentTree);
+    const isBiggerThanHightsBlow = isHighBiggestThanHights(
+      hight,
+      hightsBlowCurrentTree
+    );
 
-    const isBiggerThanHightsLeft = isHighBiggestThanHights(hight, hightsLeftOfCurrentTree);
+    const isBiggerThanHightsLeft = isHighBiggestThanHights(
+      hight,
+      hightsLeftOfCurrentTree
+    );
 
-    const isBiggerThanHightsRight = isHighBiggestThanHights(hight, hightsRightOfCurrentTree);
+    const isBiggerThanHightsRight = isHighBiggestThanHights(
+      hight,
+      hightsRightOfCurrentTree
+    );
 
     return (
       isBiggerThanHightsAbove ||
@@ -174,8 +180,22 @@ function findTreesVisibleOutside() {
       isBiggerThanHightsRight
     );
   });
-  //   console.dir(treesWithHights, { depth: null });
-    console.log({ treesVisibleOutsideCount: treesVisibleOutside.length });
+}
+
+
+function findTreesVisibleOutside() {
+  const data = readData();
+  const grid = convertDataTo2DGrid(data);
+  const treesWithHights = findTreesWithHights(grid);
+
+  //filter treesWithHights that have bigger hights from above || blow || left || right
+  const treesVisibleOutside = filterTreesVisibleOutside(treesWithHights);
+  console.log({ treesVisibleOutsideCount: treesVisibleOutside.length });
   return treesVisibleOutside.length;
 }
 findTreesVisibleOutside();
+
+// ------------------------------ Part 2 ------------------------------
+
+function findTreesVisibleOutsidePart2() {}
+// findTreesVisibleOutsidePart2();
