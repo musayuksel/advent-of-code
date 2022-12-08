@@ -96,11 +96,8 @@ function findAllHightsRightOfCurrentTree(
   return hightsRightOfCurrentTree;
 }
 
-function findTreesVisibleOutside() {
-  const data = readData();
-  const grid = convertDataTo2DGrid(data);
-  
-  const treesWithHights = grid.flat().map((tree) => {
+function findTreesWithHights(grid) {
+  return grid.flat().map((tree) => {
     //find all trees' hights (above, blow, left, right)
     // {
     //     hight: 3,
@@ -140,6 +137,12 @@ function findTreesVisibleOutside() {
       hightsRightOfCurrentTree,
     };
   });
+}
+
+function findTreesVisibleOutside() {
+  const data = readData();
+  const grid = convertDataTo2DGrid(data);
+  const treesWithHights = findTreesWithHights(grid);
   console.dir(treesWithHights, { depth: null });
 }
 findTreesVisibleOutside();
