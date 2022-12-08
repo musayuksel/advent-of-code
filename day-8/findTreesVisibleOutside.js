@@ -143,6 +143,40 @@ function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   const treesWithHights = findTreesWithHights(grid);
+
+  //filter treesWithHights that have bigger hights from above || blow || left || right
+
+    const treesVisibleOutside = treesWithHights.filter((tree) => {
+    const {
+        hight,
+        hightsAboveCurrentTree,
+        hightsBlowCurrentTree,
+        hightsLeftOfCurrentTree,
+        hightsRightOfCurrentTree,
+        } = tree;
+
+    const isBiggerThanHightsAbove = hightsAboveCurrentTree.every(
+        (h) => hight > h
+    );
+    const isBiggerThanHightsBlow = hightsBlowCurrentTree.every(
+        (h) => hight > h
+    );
+    const isBiggerThanHightsLeft = hightsLeftOfCurrentTree.every(
+        (h) => hight > h
+    );
+    const isBiggerThanHightsRight = hightsRightOfCurrentTree.every(
+        (h) => hight > h
+    );
+    return (
+        // (isNotInCorner &&
+        isBiggerThanHightsAbove ||
+        isBiggerThanHightsBlow ||  
+        isBiggerThanHightsLeft ||
+        isBiggerThanHightsRight
+    );
+    });
   console.dir(treesWithHights, { depth: null });
+  console.log({treesVisibleOutsideCount:treesVisibleOutside.length});
+
 }
 findTreesVisibleOutside();
