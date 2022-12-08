@@ -64,12 +64,29 @@ function findAllHighsBlowOfCurrentTree(
   return hightsBlowCurrentTree;
 }
 
+function findAllHightsLeftOfCurrentTree(
+  currentRowIndex,
+  currentColumnIndex,
+  grid
+) {
+  const hightsLeftOfCurrentTree = [];
+  while (currentColumnIndex > 0) {
+    const oneLeftH = oneLeftHight(currentRowIndex, currentColumnIndex, grid);
+    if (oneLeftH !== undefined) {
+      hightsLeftOfCurrentTree.push(oneLeftH);
+    }
+    currentColumnIndex--;
+  }
+  return hightsLeftOfCurrentTree;
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
   //   console.dir(grid, { depth: null });
-  console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
+  console.log(findAllHightsLeftOfCurrentTree(0, 2, grid));
+//   console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
   //   console.log(findAllHightsAboveOfCurrentTree(1, 1, grid));
 }
 findTreesVisibleOutside();
