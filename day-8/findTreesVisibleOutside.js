@@ -48,12 +48,28 @@ function findAllHightsAboveOfCurrentTree(
   return hightsAboveCurrentTree;
 }
 
+function findAllHighsBlowOfCurrentTree(
+  currentRowIndex,
+  currentColumnIndex,
+  grid
+) {
+  const hightsBlowCurrentTree = [];
+  while (currentRowIndex < grid.length - 1) {
+    const oneDownH = oneDownHight(currentRowIndex, currentColumnIndex, grid);
+    if (oneDownH !== undefined) {
+      hightsBlowCurrentTree.push(oneDownH);
+    }
+    currentRowIndex++;
+  }
+  return hightsBlowCurrentTree;
+}
+
 function findTreesVisibleOutside() {
   const data = readData();
   const grid = convertDataTo2DGrid(data);
   console.log({ data });
   //   console.dir(grid, { depth: null });
-//   console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
-  console.log(findAllHightsAboveOfCurrentTree(1, 1, grid));
+  console.log(findAllHighsBlowOfCurrentTree(3, 4, grid));
+  //   console.log(findAllHightsAboveOfCurrentTree(1, 1, grid));
 }
 findTreesVisibleOutside();
