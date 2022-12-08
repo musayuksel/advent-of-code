@@ -81,8 +81,36 @@ function convertCommandsToFileSystem(commands) {
   return fileSystem;
 }
 
+function addSizeKeyToEachDirectory(object) {
+  const objectKeys = Object.keys(object);
+  objectKeys.forEach((key) => {
+    if (object[key].size) {
+      return;
+    } else {
+      object[key].size = findTotalSize(object[key]);
+      addSizeKeyToEachDirectory(object[key]);
+    }
+  });
+
+  return object;
+}
+
+function findTotalSize(object) {
+  let totalSize = 0;
+  const objectKeys = Object.keys(object);
+  objectKeys.forEach((key) => {
+    if (object[key].size) {
+      totalSize += object[key].size;
+    } else {
+      totalSize += findTotalSize(object[key]);
+    }
+  });
+  return totalSize;
+}
+
 function findSumOfTotalSizes() {
   const commands = readData();
-  convertCommandsToFileSystem(commands);
+  const fileSystemObject = convertCommandsToFileSystem(commands);
+  console.dir(addSizeKeyToEachDirectory(fileSystemObject), { depth: null });
 }
 findSumOfTotalSizes();
