@@ -11,10 +11,22 @@ function convertDataToMoves(data) {
   });
 }
 
+// [1,1] => [1,2]
+const moveOneRight = (position) => [position[0], position[1] + 1];
+
+// [1,1] => [1,0]
+const moveOneLeft = (position) => [position[0], position[1] - 1];
+
+// [1,1] => [0,1]
+const moveOneUp = (position) => [position[0] - 1, position[1]];
+
+// [1,1] => [2,1]
+const moveOneDown = (position) => [position[0] + 1, position[1]];
+
 function findVisitedGrids(commands) {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
-
+  console.log(moveOneDown([1, 1]))
   console.log({ moves });
 }
 findVisitedGrids();
