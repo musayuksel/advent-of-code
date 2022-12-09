@@ -4,9 +4,17 @@ function readData() {
   const dataString = buffer.toString();
   return dataString.split('\n');
 }
+function convertDataToMoves(data) {
+  return data.map((moveString) => {
+    const [direction, moveCount] = moveString.split(' ');
+    return { direction, moveCount: parseInt(moveCount) };
+  });
+}
 
 function findVisitedGrids(commands) {
-  const moves = readData();
+  const movesString = readData();
+  const moves = convertDataToMoves(movesString);
+
   console.log({ moves });
 }
 findVisitedGrids();
