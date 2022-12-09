@@ -97,37 +97,44 @@ function doOneDirectionMoveNTimes(
     currentTailPosition = tailsMoveFunction
       ? tailsMoveFunction(currentTailPosition)
       : currentTailPosition;
-      visitedGridsByTail.push(currentTailPosition);
-    console.log({
-      currentHeadPosition,
-      tailsMoveDirection,
-      currentTailPosition,
-    });
-
+    visitedGridsByTail.push(currentTailPosition);
+    // console.log({
+    //   currentHeadPosition,
+    //   tailsMoveDirection,
+    //   currentTailPosition,
+    // });
   }
-  return { tailPositionAfterMove :currentTailPosition , headPositionAfterMove:currentHeadPosition, visitedGridsByTail };
+  return {
+    tailPositionAfterMove: currentTailPosition,
+    headPositionAfterMove: currentHeadPosition,
+    visitedGridsByTail,
+  };
 }
-
-
-
 
 function findVisitedGrids() {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
-    const visitedGrids = [];
-    let currentTailPosition = [4, 0];
-    let currentHeadPosition = [4, 0];
-    moves.forEach((move) => {
-     const { tailPositionAfterMove, headPositionAfterMove, visitedGridsByTail } = doOneDirectionMoveNTimes(
+  const visitedGrids = [];
+  let currentTailPosition = [4, 0];
+  let currentHeadPosition = [4, 0];
+  moves.forEach((move) => {
+    const { tailPositionAfterMove, headPositionAfterMove, visitedGridsByTail } =
+      doOneDirectionMoveNTimes(
         move.direction,
         move.moveCount,
         currentTailPosition,
         currentHeadPosition
       );
-        visitedGrids.push(...visitedGridsByTail);
-        currentTailPosition = tailPositionAfterMove;
-        currentHeadPosition = headPositionAfterMove;
-    });
-    console.log('>>>>>>',{currentTailPosition, currentHeadPosition,visitedGrids });
+    visitedGrids.push(...visitedGridsByTail);
+    currentTailPosition = tailPositionAfterMove;
+    currentHeadPosition = headPositionAfterMove;
+  });
+
+  const visitedGridsString = visitedGrids.map(
+    (grid) => `${grid[0]}-${grid[1]}`
+  );
+  const uniqueVisitedGrids = [...new Set(visitedGridsString)];
+  console.log({ uniqueVisitedGridsCount: uniqueVisitedGrids.length });
+  return uniqueVisitedGrids.length;
 }
 findVisitedGrids();
