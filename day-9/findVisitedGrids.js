@@ -73,15 +73,43 @@ function findDirectionFunction(direction) {
     case 'DL':
       return moveDownLeft;
     default:
-      return () => {};
+      return null;
   }
 }
 
+// { direction: 'R', moveCount: 4 }= > 4 * moveOneRight
+function doOneDirectionMoveNTimes(
+  direction,
+  moveCount,
+  currentTailPosition,
+  currentHeadPosition
+) {
+  const directionFunction = findDirectionFunction(direction);
+  console.log({ directionFunction, currentHeadPosition, currentTailPosition });
+  for (let i = 0; i < moveCount; i++) {
+    currentHeadPosition = directionFunction(currentHeadPosition);
+    const tailsMoveDirection = findTailsMoveDirection(
+      currentTailPosition,
+      currentHeadPosition
+    );
+
+    const tailsMoveFunction = findDirectionFunction(tailsMoveDirection);
+    currentTailPosition = tailsMoveFunction
+      ? tailsMoveFunction(currentTailPosition)
+      : currentTailPosition;
+    console.log({
+      currentHeadPosition,
+      tailsMoveDirection,
+      currentTailPosition,
+    });
+  }
+}
+doOneDirectionMoveNTimes('R', 4, [1, 1], [0, 0]);
 
 function findVisitedGrids() {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
-  console.log({ moves });
-  console.log(findTailsMoveDirection([1, 1], [2, 3]));
+  //   console.log({ moves });
+  //   console.log(findTailsMoveDirection([1, 1], [2, 3]));
 }
 findVisitedGrids();
