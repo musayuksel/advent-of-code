@@ -77,7 +77,7 @@ function convertCommandsToFileSystem(commands) {
       };
     }
   });
-  console.dir(fileSystem, { depth: null });
+  
   return fileSystem;
 }
 
@@ -128,14 +128,18 @@ function findSumOfTotalSizes() {
   const flattenFileSystemObject = flatFileSystemObject(
     fileSystemObjectWithSize
   );
-  const allDirectoriesUnder100K = Object.entries(flattenFileSystemObject).filter(
-    ([key, value]) => {
-      return value < 100000 && key.includes('dirTotalSize');
-    }
-  );
+  const allDirectoriesUnder100K = Object.entries(
+    flattenFileSystemObject
+  ).filter(([key, value]) => {
+    return value < 100000 && key.includes('dirTotalSize');
+  });
 
+  const totalSizesUnder100K = allDirectoriesUnder100K.reduce(
+    (acc, [_, value]) => acc + value,
+    0
+  );
   console.dir(fileSystemObjectWithSize, { depth: null });
   console.log(flattenFileSystemObject);
-  console.log({allDirectoriesUnder100K});
+  console.log({ allDirectoriesUnder100K, totalSizesUnder100K });
 }
 findSumOfTotalSizes();
