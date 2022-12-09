@@ -37,9 +37,29 @@ const moveDownLeft = (position) => moveOneDown(moveOneLeft(position));
 // Diff [2,1] || [1,2] DownRight
 // Diff [2,-1] || [1,-2] DownLeft
 
+function findTailsMoveDirection(tail, head) {
+  const [rowIndexDiff, colIndexDiff] = [head[0] - tail[0], head[1] - tail[1]];
+  if (rowIndexDiff === 0 && colIndexDiff === 2) return 'R';
+  if (rowIndexDiff === 0 && colIndexDiff === -2) return 'L';
+  if (rowIndexDiff === -2 && colIndexDiff === 0) return 'U';
+  if (rowIndexDiff === 2 && colIndexDiff === 0) return 'D';
+  if (rowIndexDiff === -2 && colIndexDiff === 1) return 'UR';
+  if (rowIndexDiff === -1 && colIndexDiff === 2) return 'UR';
+  if (rowIndexDiff === -2 && colIndexDiff === -1) return 'UL';
+  if (rowIndexDiff === -1 && colIndexDiff === -2) return 'UL';
+  if (rowIndexDiff === 2 && colIndexDiff === 1) return 'DR';
+  if (rowIndexDiff === 1 && colIndexDiff === 2) return 'DR';
+  if (rowIndexDiff === 2 && colIndexDiff === -1) return 'DL';
+  if (rowIndexDiff === 1 && colIndexDiff === -2) return 'DL';
+  return 'Stay';
+}
+
+
+
 function findVisitedGrids() {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
   console.log({ moves });
+  console.log(findTailsMoveDirection([1, 1], [2, 3]));
 }
 findVisitedGrids();
