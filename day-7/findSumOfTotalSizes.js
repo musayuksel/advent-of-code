@@ -77,7 +77,7 @@ function convertCommandsToFileSystem(commands) {
       };
     }
   });
-  
+
   return fileSystem;
 }
 
@@ -140,6 +140,6 @@ function findSumOfTotalSizes() {
   );
   console.dir(fileSystemObjectWithSize, { depth: null });
   console.log(flattenFileSystemObject);
-  console.log({ allDirectoriesUnder100K, totalSizesUnder100K });
+  return totalSizesUnder100K;
 }
 findSumOfTotalSizes();
