@@ -128,7 +128,14 @@ function findSumOfTotalSizes() {
   const flattenFileSystemObject = flatFileSystemObject(
     fileSystemObjectWithSize
   );
+  const allDirectoriesUnder100K = Object.entries(flattenFileSystemObject).filter(
+    ([key, value]) => {
+      return value < 100000 && key.includes('dirTotalSize');
+    }
+  );
+
   console.dir(fileSystemObjectWithSize, { depth: null });
   console.log(flattenFileSystemObject);
+  console.log({allDirectoriesUnder100K});
 }
 findSumOfTotalSizes();
