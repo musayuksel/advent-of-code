@@ -87,7 +87,7 @@ function addSizeKeyToEachDirectory(object) {
     if (object[key].size) {
       return;
     } else {
-      object[key].size = findTotalSize(object[key]);
+      object[key].dirTotalSize = findTotalSize(object[key]);
       addSizeKeyToEachDirectory(object[key]);
     }
   });
@@ -108,9 +108,27 @@ function findTotalSize(object) {
   return totalSize;
 }
 
+function flatFileSystemObject(fileSystem, parent, currentDir = {}) {
+  for (let directory in fileSystem) {
+    let dirName = parent ? parent + '/' + directory : directory;
+    if (typeof fileSystem[directory] === 'object') {
+      flatFileSystemObject(fileSystem[directory], dirName, currentDir);
+    } else {
+      currentDir[dirName] = fileSystem[directory];
+    }
+  }
+
+  return currentDir;
+}
+
 function findSumOfTotalSizes() {
   const commands = readData();
   const fileSystemObject = convertCommandsToFileSystem(commands);
-  console.dir(addSizeKeyToEachDirectory(fileSystemObject), { depth: null });
+  const fileSystemObjectWithSize = addSizeKeyToEachDirectory(fileSystemObject);
+  const flattenFileSystemObject = flatFileSystemObject(
+    fileSystemObjectWithSize
+  );
+  console.dir(fileSystemObjectWithSize, { depth: null });
+  console.log(flattenFileSystemObject);
 }
 findSumOfTotalSizes();
