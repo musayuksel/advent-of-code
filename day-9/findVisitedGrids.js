@@ -28,7 +28,7 @@ const moveUpLeft = (position) => moveOneUp(moveOneLeft(position));
 const moveDownRight = (position) => moveOneDown(moveOneRight(position));
 const moveDownLeft = (position) => moveOneDown(moveOneLeft(position));
 
-function findVisitedGrids(commands) {
+function findVisitedGrids() {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
   console.log({ moves });
