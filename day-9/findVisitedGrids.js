@@ -54,6 +54,28 @@ function findTailsMoveDirection(tail, head) {
   return 'Stay';
 }
 
+function findDirectionFunction(direction) {
+  switch (direction) {
+    case 'R':
+      return moveOneRight;
+    case 'L':
+      return moveOneLeft;
+    case 'U':
+      return moveOneUp;
+    case 'D':
+      return moveOneDown;
+    case 'UR':
+      return moveUpRight;
+    case 'UL':
+      return moveUpLeft;
+    case 'DR':
+      return moveDownRight;
+    case 'DL':
+      return moveDownLeft;
+    default:
+      return () => {};
+  }
+}
 
 
 function findVisitedGrids() {
