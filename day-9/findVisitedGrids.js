@@ -23,10 +23,14 @@ const moveOneUp = (position) => [position[0] - 1, position[1]];
 // [1,1] => [2,1]
 const moveOneDown = (position) => [position[0] + 1, position[1]];
 
+const moveUpRight = (position) => moveOneUp(moveOneRight(position));
+const moveUpLeft = (position) => moveOneUp(moveOneLeft(position));
+const moveDownRight = (position) => moveOneDown(moveOneRight(position));
+const moveDownLeft = (position) => moveOneDown(moveOneLeft(position));
+
 function findVisitedGrids(commands) {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
-  console.log(moveOneDown([1, 1]))
   console.log({ moves });
 }
 findVisitedGrids();
