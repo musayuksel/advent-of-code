@@ -85,7 +85,7 @@ function doOneDirectionMoveNTimes(
   currentHeadPosition
 ) {
   const directionFunction = findDirectionFunction(direction);
-  console.log({ directionFunction, currentHeadPosition, currentTailPosition });
+  const visitedGridsByTail = [];
   for (let i = 0; i < moveCount; i++) {
     currentHeadPosition = directionFunction(currentHeadPosition);
     const tailsMoveDirection = findTailsMoveDirection(
@@ -97,19 +97,37 @@ function doOneDirectionMoveNTimes(
     currentTailPosition = tailsMoveFunction
       ? tailsMoveFunction(currentTailPosition)
       : currentTailPosition;
+      visitedGridsByTail.push(currentTailPosition);
     console.log({
       currentHeadPosition,
       tailsMoveDirection,
       currentTailPosition,
     });
+
   }
+  return { tailPositionAfterMove :currentTailPosition , headPositionAfterMove:currentHeadPosition, visitedGridsByTail };
 }
-doOneDirectionMoveNTimes('R', 4, [1, 1], [0, 0]);
+
+
+
 
 function findVisitedGrids() {
   const movesString = readData();
   const moves = convertDataToMoves(movesString);
-  //   console.log({ moves });
-  //   console.log(findTailsMoveDirection([1, 1], [2, 3]));
+    const visitedGrids = [];
+    let currentTailPosition = [4, 0];
+    let currentHeadPosition = [4, 0];
+    moves.forEach((move) => {
+     const { tailPositionAfterMove, headPositionAfterMove, visitedGridsByTail } = doOneDirectionMoveNTimes(
+        move.direction,
+        move.moveCount,
+        currentTailPosition,
+        currentHeadPosition
+      );
+        visitedGrids.push(...visitedGridsByTail);
+        currentTailPosition = tailPositionAfterMove;
+        currentHeadPosition = headPositionAfterMove;
+    });
+    console.log('>>>>>>',{currentTailPosition, currentHeadPosition,visitedGrids });
 }
 findVisitedGrids();
