@@ -16,9 +16,33 @@ function convertDataToMoves(data) {
   });
 }
 
+function findSumOfSignalStrengths(signalStrengths) {
+  return signalStrengths.reduce((acc, curr) => acc + curr, 0);
+}
+
 function findSignalStrengths() {
   const data = readData();
   const commands = convertDataToMoves(data);
-  console.log({ commands });
+
+  let currentValue = 1;
+  let cycleCounter = 0;
+  let signalStrengthPoint = 20;
+  const signalStrengths = [];
+
+  commands.forEach((command) => {
+    cycleCounter += command.cycle;
+    currentValue += command.value;
+    if (cycleCounter >= signalStrengthPoint) {
+      signalStrengths.push(
+        (currentValue - command.value) * signalStrengthPoint
+      );
+      signalStrengthPoint += 40;
+    }
+  });
+
+  const sumOfSignalStrengths = findSumOfSignalStrengths(signalStrengths);
+
+  console.log({ sumOfSignalStrengths });
+  return sumOfSignalStrengths;
 }
 findSignalStrengths();
