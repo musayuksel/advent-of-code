@@ -7,6 +7,14 @@ function readData() {
 
 function findSignalStrengths() {
   const data = readData();
-  console.log({ data });
+  const commands = data.map((commandString) => {
+    const [commandKey, commandValue] = commandString.split(' ');
+    return {
+      command: commandKey,
+      cycle: commandKey === 'noop' ? 1 : 2,
+      value: commandValue === undefined ? 0 : parseInt(commandValue),
+    };
+  });
+  console.log({ commands });
 }
-findSignalStrengths ();
+findSignalStrengths();
