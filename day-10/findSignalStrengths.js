@@ -5,9 +5,8 @@ function readData() {
   return dataString.split('\n');
 }
 
-function findSignalStrengths() {
-  const data = readData();
-  const commands = data.map((commandString) => {
+function convertDataToMoves(data) {
+  return data.map((commandString) => {
     const [commandKey, commandValue] = commandString.split(' ');
     return {
       command: commandKey,
@@ -15,6 +14,11 @@ function findSignalStrengths() {
       value: commandValue === undefined ? 0 : parseInt(commandValue),
     };
   });
+}
+
+function findSignalStrengths() {
+  const data = readData();
+  const commands = convertDataToMoves(data);
   console.log({ commands });
 }
 findSignalStrengths();
