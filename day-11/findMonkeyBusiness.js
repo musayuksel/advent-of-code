@@ -20,7 +20,7 @@ function convertDataToReadableObject(data) {
       monkeyNumber,
       monkeyItemsWorryLevels,
       operation,
-      test,
+      divisible,
       ifTrue,
       ifFalse,
     ] = monkeyData.split('\n');
@@ -31,7 +31,7 @@ function convertDataToReadableObject(data) {
         .split(', ')
         .map((item) => parseInt(item)),
       operation: operation.split('= ')[1],
-      test: test.split(': ')[1],
+      divisibleTest: parseInt(divisible.split('divisible by ')[1]),
       ifTrue: ifTrue.split(': ')[1],
       ifFalse: ifFalse.split(': ')[1],
     };
@@ -43,6 +43,7 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
     const operationString = currentMonkey.operation.split('old')[1];
     const operationResult = eval(worryLevel + operationString);
     const newWorryLevel = parseInt(operationResult / 3);
+    // const isTestTrue = currentMonkey.test.split('divisible by ')[1] //divisible by 23
     console.log({ operationString, operationResult, newWorryLevel });
   });
 }
