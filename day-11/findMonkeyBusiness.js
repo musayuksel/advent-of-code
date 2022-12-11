@@ -34,6 +34,7 @@ function convertDataToReadableObject(data) {
       divisibleTest: parseInt(divisible.split('divisible by ')[1]),
       ifTrueThrowTo: parseInt(ifTrue.split('throw to monkey ')[1]),
       ifFalseThrowTo: parseInt(ifFalse.split('throw to monkey ')[1]),
+      inspectedItems: 0,
     };
   });
 }
@@ -50,8 +51,9 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
     const throwMonkeyNumber = isTestTrue
       ? currentMonkey.ifTrueThrowTo
       : currentMonkey.ifFalseThrowTo;
-        
+
     monkeyObjects[throwMonkeyNumber].monkeyItemsWorryLevels.push(newWorryLevel);
+    currentMonkey.inspectedItems++;
   });
   currentMonkey.monkeyItemsWorryLevels = [];
 }
