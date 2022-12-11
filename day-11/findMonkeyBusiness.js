@@ -45,12 +45,15 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
 
     const newWorryLevel = parseInt(operationResult / 3);
 
-    const isTestTrue = operationResult % currentMonkey.divisibleTest === 0;
+    const isTestTrue = newWorryLevel % currentMonkey.divisibleTest === 0;
 
     const throwMonkeyNumber = isTestTrue
       ? currentMonkey.ifTrueThrowTo
       : currentMonkey.ifFalseThrowTo;
 
+      console.log(`${newWorryLevel} divisible by ${currentMonkey.divisibleTest} ....${isTestTrue}`)
+      console.log(newWorryLevel,'>>>will be thrown to monkey',throwMonkeyNumber)
+        
     monkeyObjects[throwMonkeyNumber].monkeyItemsWorryLevels.push(newWorryLevel);
   });
   currentMonkey.monkeyItemsWorryLevels = [];
@@ -60,6 +63,8 @@ function findMonkeyBusiness() {
   const data = readData();
   const monkeyObjects = convertDataToReadableObject(data);
   testForOneMonkey(monkeyObjects, monkeyObjects[0]);
+  testForOneMonkey(monkeyObjects, monkeyObjects[1]);
+  testForOneMonkey(monkeyObjects, monkeyObjects[2]);
   console.dir(monkeyObjects, { depth: null });
 }
 findMonkeyBusiness();
