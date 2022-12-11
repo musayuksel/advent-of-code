@@ -47,7 +47,15 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
 
     const isTestTrue = operationResult % currentMonkey.divisibleTest === 0;
 
-    console.log({ operationString, operationResult, newWorryLevel });
+    const throwMonkeyNumber = isTestTrue
+      ? currentMonkey.ifTrueThrowTo
+      : currentMonkey.ifFalseThrowTo;
+      
+    console.log({
+      operationResult,
+      newWorryLevel,
+      throwMonkeyNumber,
+    });
   });
 }
 
