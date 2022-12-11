@@ -50,13 +50,10 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
     const throwMonkeyNumber = isTestTrue
       ? currentMonkey.ifTrueThrowTo
       : currentMonkey.ifFalseThrowTo;
-      
-    console.log({
-      operationResult,
-      newWorryLevel,
-      throwMonkeyNumber,
-    });
+
+    monkeyObjects[throwMonkeyNumber].monkeyItemsWorryLevels.push(newWorryLevel);
   });
+  currentMonkey.monkeyItemsWorryLevels = [];
 }
 
 function findMonkeyBusiness() {
