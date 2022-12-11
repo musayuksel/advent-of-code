@@ -32,8 +32,8 @@ function convertDataToReadableObject(data) {
         .map((item) => parseInt(item)),
       operation: operation.split('= ')[1],
       divisibleTest: parseInt(divisible.split('divisible by ')[1]),
-      ifTrue: ifTrue.split(': ')[1],
-      ifFalse: ifFalse.split(': ')[1],
+      ifTrueThrowTo: parseInt(ifTrue.split('throw to monkey ')[1]),
+      ifFalseThrowTo: parseInt(ifFalse.split('throw to monkey ')[1]),
     };
   });
 }
@@ -42,8 +42,11 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
   currentMonkey.monkeyItemsWorryLevels.forEach((worryLevel) => {
     const operationString = currentMonkey.operation.split('old')[1];
     const operationResult = eval(worryLevel + operationString);
+
     const newWorryLevel = parseInt(operationResult / 3);
+
     const isTestTrue = operationResult % currentMonkey.divisibleTest === 0;
+
     console.log({ operationString, operationResult, newWorryLevel });
   });
 }
