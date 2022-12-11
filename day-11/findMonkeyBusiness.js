@@ -42,7 +42,8 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
   currentMonkey.monkeyItemsWorryLevels.forEach((worryLevel) => {
     const operationString = currentMonkey.operation.split('old')[1];
     const operationResult = eval(worryLevel + operationString);
-    console.log({ operationString, operationResult });
+    const newWorryLevel = parseInt(operationResult / 3);
+    console.log({ operationString, operationResult, newWorryLevel });
   });
 }
 
