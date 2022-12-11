@@ -40,8 +40,8 @@ function convertDataToReadableObject(data) {
 
 function testForOneMonkey(monkeyObjects, currentMonkey) {
   currentMonkey.monkeyItemsWorryLevels.forEach((worryLevel) => {
-    const operationString = currentMonkey.operation.split('old')[1];
-    const operationResult = eval(worryLevel + operationString);
+    const operationString = currentMonkey.operation.replaceAll('old', worryLevel)
+    const operationResult = eval(operationString);
 
     const newWorryLevel = parseInt(operationResult / 3);
 
