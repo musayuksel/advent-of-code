@@ -50,9 +50,6 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
     const throwMonkeyNumber = isTestTrue
       ? currentMonkey.ifTrueThrowTo
       : currentMonkey.ifFalseThrowTo;
-
-      console.log(`${newWorryLevel} divisible by ${currentMonkey.divisibleTest} ....${isTestTrue}`)
-      console.log(newWorryLevel,'>>>will be thrown to monkey',throwMonkeyNumber)
         
     monkeyObjects[throwMonkeyNumber].monkeyItemsWorryLevels.push(newWorryLevel);
   });
