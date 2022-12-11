@@ -38,9 +38,18 @@ function convertDataToReadableObject(data) {
   });
 }
 
+function testForOneMonkey(monkeyObjects, currentMonkey) {
+  currentMonkey.monkeyItemsWorryLevels.forEach((worryLevel) => {
+    const operationString = currentMonkey.operation.split('old')[1];
+    const operationResult = eval(worryLevel + operationString);
+    console.log({ operationString, operationResult });
+  });
+}
+
 function findMonkeyBusiness() {
   const data = readData();
-  const eachMonkey = convertDataToReadableObject(data);
-  console.log({ eachMonkey });
+  const monkeyObjects = convertDataToReadableObject(data);
+  testForOneMonkey(monkeyObjects, monkeyObjects[0]);
+  console.dir(monkeyObjects, { depth: null });
 }
 findMonkeyBusiness();
