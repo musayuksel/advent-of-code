@@ -61,7 +61,10 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
 function findMonkeyBusiness() {
   const data = readData();
   const monkeyObjects = convertDataToReadableObject(data);
-  monkeyObjects.forEach((monkey) => testForOneMonkey(monkeyObjects, monkey));
+  
+  for (let i = 0; i < 20; i++) {
+    monkeyObjects.forEach((monkey) => testForOneMonkey(monkeyObjects, monkey));
+  }
   console.dir(monkeyObjects, { depth: null });
 }
 findMonkeyBusiness();
