@@ -61,10 +61,14 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
 function findMonkeyBusiness() {
   const data = readData();
   const monkeyObjects = convertDataToReadableObject(data);
-  
+//run 20 times
   for (let i = 0; i < 20; i++) {
     monkeyObjects.forEach((monkey) => testForOneMonkey(monkeyObjects, monkey));
   }
   console.dir(monkeyObjects, { depth: null });
+  //find inspected items
+  const inspectedItems = monkeyObjects.map((monkey) => monkey.inspectedItems).sort((a,b) => b-a);
+  const monkeyBusiness = inspectedItems[0] * inspectedItems[1];
+  console.log({ monkeyBusiness  });
 }
 findMonkeyBusiness();
