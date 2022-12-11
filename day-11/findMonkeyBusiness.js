@@ -43,7 +43,7 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
     const operationString = currentMonkey.operation.split('old')[1];
     const operationResult = eval(worryLevel + operationString);
     const newWorryLevel = parseInt(operationResult / 3);
-    // const isTestTrue = currentMonkey.test.split('divisible by ')[1] //divisible by 23
+    const isTestTrue = operationResult % currentMonkey.divisibleTest === 0;
     console.log({ operationString, operationResult, newWorryLevel });
   });
 }
