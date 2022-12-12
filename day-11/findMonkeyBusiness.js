@@ -61,15 +61,71 @@ function testForOneMonkey(monkeyObjects, currentMonkey) {
 function findMonkeyBusiness() {
   const data = readData();
   const monkeyObjects = convertDataToReadableObject(data);
-//run 20 times
+  //run 20 times
   for (let i = 0; i < 20; i++) {
     monkeyObjects.forEach((monkey) => testForOneMonkey(monkeyObjects, monkey));
   }
   // console.dir(monkeyObjects, { depth: null });
   //find inspected items
-  const inspectedItems = monkeyObjects.map((monkey) => monkey.inspectedItems).sort((a,b) => b-a);
+  const inspectedItems = monkeyObjects.map((monkey) => monkey.inspectedItems)
+.sort((a, b) => b - a);
   const monkeyBusiness = inspectedItems[0] * inspectedItems[1];
-  console.log({ monkeyBusiness  });
+  console.log({ monkeyBusiness });
   return monkeyBusiness;
 }
-findMonkeyBusiness();
+// findMonkeyBusiness();
+
+// ---------------------- Part 2 ----------------------
+
+function testForOneMonkeyPart2(monkeyObjects, currentMonkey) {
+  currentMonkey.monkeyItemsWorryLevels.forEach((worryLevel) => {
+    const operationString = currentMonkey.operation.replaceAll(
+      'old',
+      worryLevel
+    );
+    const operationResult = eval(operationString);
+
+    const newWorryLevel = parseInt(operationResult);
+
+    const isTestTrue = newWorryLevel % currentMonkey.divisibleTest === 0;
+
+    const throwMonkeyNumber = isTestTrue
+      ? currentMonkey.ifTrueThrowTo
+      : currentMonkey.ifFalseThrowTo;
+
+    monkeyObjects[throwMonkeyNumber].monkeyItemsWorryLevels.push(newWorryLevel);
+    currentMonkey.inspectedItems++;
+  });
+  currentMonkey.monkeyItemsWorryLevels = [];
+}
+
+function findMonkeyBusinessPart2() {
+  const data = readData();
+  const monkeyObjects = convertDataToReadableObject(data);
+  //run 20 times
+  monkeyObjects.forEach((monkey) =>
+    testForOneMonkeyPart2(monkeyObjects, monkey)
+  );
+  console.log(
+    'AFTER 1 ITERATION: ',
+    monkeyObjects.map((monkey) => monkey.inspectedItems)
+  );
+
+  for (let i = 1; i < 20; i++) {
+    monkeyObjects.forEach((monkey) =>
+      testForOneMonkeyPart2(monkeyObjects, monkey)
+    );
+  }
+  console.log(
+    'AFTER 20 ITERATIONS: ',
+    monkeyObjects.map((monkey) => monkey.inspectedItems)
+  );
+  //find inspected items
+  const inspectedItems = monkeyObjects
+    .map((monkey) => monkey.inspectedItems)
+    .sort((a, b) => b - a);
+  const monkeyBusiness = inspectedItems[0] * inspectedItems[1];
+  console.log({ monkeyBusiness });
+  return monkeyBusiness;
+}
+findMonkeyBusinessPart2();
