@@ -5,6 +5,12 @@ function readData() {
   return dataString.split('\n');
 }
 
+function findALetter(letter, array) {
+  const letterRow = array.findIndex((row) => row.includes(letter));
+  const letterColumn = array[letterRow].indexOf(letter);
+  return [letterRow, letterColumn];
+}
+
 function findShortestWay() {
   const data = readData();
   const routeArray = data.map((route) => route.split(''));
@@ -16,17 +22,9 @@ function findShortestWay() {
   // only move at most one letter later in the alphabet
   // (e.g. from 'a' to 'b', but not from 'a' to 'c')
 
-  const startingPointRow = routeArray.findIndex((row) => row.includes('S'));
-  const startingPointColumn = routeArray[startingPointRow].indexOf('S');
+  const startPoint = findALetter('S', routeArray);
+  const endPoint = findALetter('E', routeArray);
 
-  const endPointRow = routeArray.findIndex((row) => row.includes('E'));
-  const endPointColumn = routeArray[endPointRow].indexOf('E');
-
-  console.log(
-    startingPointRow,
-    startingPointColumn,
-    endPointRow,
-    endPointColumn
-  );
+  console.log(startPoint, endPoint);
 }
 findShortestWay();
