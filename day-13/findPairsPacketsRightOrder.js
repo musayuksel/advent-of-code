@@ -5,8 +5,16 @@ function readData() {
   return dataString.split('\n\n');
 }
 
+function findPairsArrays(data) {
+  return data.map((item) => {
+    const [left, right] = item.split('\n');
+    return [eval(left), eval(right)];
+  });
+}
+
 function findPairsPacketsRightOrder() {
   const data = readData();
-  console.log({ data });
+  const pairs = findPairsArrays(data);
+  console.dir(pairs, { depth: null });
 }
 findPairsPacketsRightOrder();
