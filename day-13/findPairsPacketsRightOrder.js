@@ -32,22 +32,25 @@ function convertStringsToComparableArray(stringArray) {
       } else if (nextSliceIndex > nextBreakIndex) {
         nextSliceIndex = nextBreakIndex;
       }
-
       const nextNum = stringArray.slice(currentIndex, nextSliceIndex);
-      console.log({ nextNum });
       newArray.push(+nextNum);
+      
       currentIndex = nextSliceIndex;
     }
     currentIndex++;
   }
-  console.log({ newArray });
+  return newArray;
 }
 
 function findPairsPacketsRightOrder() {
   const data = readData();
   const pairs = findPairsArrays(data);
-  //   console.dir(pairs, { depth: null });
-  convertStringsToComparableArray('[1,[15],3,1,1]');
-  convertStringsToComparableArray('[[[123]]]');
+
+  const pairsArray = pairs.map(([left, right]) => [
+    convertStringsToComparableArray(left),
+    convertStringsToComparableArray(right),
+  ]);
+
+  console.dir(pairsArray, { depth: null });
 }
 findPairsPacketsRightOrder();
