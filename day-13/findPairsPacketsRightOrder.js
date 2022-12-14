@@ -34,12 +34,48 @@ function convertStringsToComparableArray(stringArray) {
       }
       const nextNum = stringArray.slice(currentIndex, nextSliceIndex);
       newArray.push(+nextNum);
-      
+
       currentIndex = nextSliceIndex;
     }
     currentIndex++;
   }
   return newArray;
+}
+
+function isPairsRightOrder(pair) {
+  const [leftArray, rightArray] = pair;
+  console.log({ leftArray, rightArray });
+
+  while (true) {
+    const leftNumber = leftArray.shift();
+    const rightNumber = rightArray.shift();
+
+    if (leftNumber === undefined) {
+      console.log('LEFT side ran out of items', { leftNumber, rightNumber });
+      if (leftNumber > rightNumber) return false;
+      return true;
+    }
+    if (rightNumber === undefined) {
+      console.log('Right side ran out of items:', { leftNumber, rightNumber });
+      return false;
+    }
+    if (leftNumber === Infinity && rightNumber === Infinity) continue;
+    if (leftNumber === Infinity && rightNumber !== Infinity) {
+      //push right number back
+      rightArray.unshift(rightNumber);
+      continue;
+    }
+    if (leftNumber !== Infinity && rightNumber === Infinity) {
+      //push left number back
+      leftArray.unshift(leftNumber);
+      continue;
+    }
+    if (leftNumber !== Infinity && rightNumber !== Infinity) {
+      if (leftNumber > rightNumber) return false;
+      if (leftNumber === rightNumber) continue;
+      return true;
+    }
+  }
 }
 
 function findPairsPacketsRightOrder() {
@@ -51,6 +87,7 @@ function findPairsPacketsRightOrder() {
     convertStringsToComparableArray(right),
   ]);
 
-  console.dir(pairsArray, { depth: null });
+  console.log(pairsArray.map(isPairsRightOrder));
+  //   console.dir(pairsArray, { depth: null });
 }
 findPairsPacketsRightOrder();
