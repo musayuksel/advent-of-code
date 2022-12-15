@@ -138,8 +138,46 @@ function findSumOfTotalSizes() {
     (acc, [_, value]) => acc + value,
     0
   );
-  console.dir(fileSystemObjectWithSize, { depth: null });
-  console.log(flattenFileSystemObject);
+  // console.dir(fileSystemObjectWithSize, { depth: null });
+  console.log({ totalSizesUnder100K });
   return totalSizesUnder100K;
 }
 findSumOfTotalSizes();
+
+// ------------------------------ part 2 ------------------------------
+function findSumOfTotalSizesPart2() {
+  const commands = readData();
+  const fileSystemObject = convertCommandsToFileSystem(commands);
+  const fileSystemObjectWithSize = addSizeKeyToEachDirectory(fileSystemObject);
+  const flattenFileSystemObject = flatFileSystemObject(
+    fileSystemObjectWithSize
+  );
+  const allDirectoriesUnder100K = Object.entries(
+    flattenFileSystemObject
+  ).filter(([key, value]) => {
+    return value < 100000 && key.includes('dirTotalSize');
+  });
+
+  const totalSizesUnder100K = allDirectoriesUnder100K.reduce(
+    (acc, [_, value]) => acc + value,
+    0
+  );
+  const totalUsedSpace = fileSystemObjectWithSize['/'].dirTotalSize;
+  const unusedSpace = 70000000 - totalUsedSpace;
+  const needsToBeDeleted = 30000000 - unusedSpace;
+
+  const deletableSpaces = Object.entries(flattenFileSystemObject).filter(
+    ([key, value]) => value >= needsToBeDeleted && key.includes('dirTotalSize')
+  );
+  console.log({
+    totalUsedSpace,
+    unusedSpace,
+    needsToBeDeleted,
+  });
+
+  //find the smallest deletable space
+  const smallestDeletableSpace = deletableSpaces.sort((a, b) => a[1] - b[1])[0];
+  console.log({ smallestDeletableSpace });
+  return smallestDeletableSpace[1];
+}
+findSumOfTotalSizesPart2();
