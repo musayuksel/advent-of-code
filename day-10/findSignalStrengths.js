@@ -45,35 +45,34 @@ function findSignalStrengths() {
   console.log({ sumOfSignalStrengths });
   return sumOfSignalStrengths;
 }
-// findSignalStrengths();
+findSignalStrengths();
 
-
-// ------------------------------ Part 2 ------------------------------ 
+// ------------------------------ Part 2 ------------------------------
 function findSignalStrengthsPart2() {
   const data = readData();
   const commands = convertDataToMoves(data);
 
-  let currentValue = 1;//16
+  let currentValue = 1;
   let cycleCounter = 0;
-  let spriteCounter = 0;
   let signalStrengthPoint = 20;
   const signalStrengths = [];
 
-  const sprites = new Array(6).fill(new Array(40).fill('.')) 
+  let sprites = new Array(6)
+    .fill(new Array(40).fill('.'))
+    .map((sprite) => sprite.map((s) => '.'));
 
-
-  
   commands.forEach((command) => {
-    console.log({currentValue})
+    // lit the pixels
     for (let i = 0; i < command.cycle; i++) {
-      if(spriteCounter >=currentValue-1 && spriteCounter <= currentValue+1){
-        sprites[Math.floor(cycleCounter/40)][spriteCounter ] = '#';
+      if (
+        cycleCounter % 40 >= currentValue - 1 &&
+        cycleCounter % 40 <= currentValue + 1
+      ) {
+        sprites[Math.floor(cycleCounter / 40)][cycleCounter % 40] = '#';
       }
-      spriteCounter += 1;
+      cycleCounter += 1;
     }
-    // sprites.push(newSprites.join(''))
 
-    cycleCounter += command.cycle;
     currentValue += command.value;
     if (cycleCounter >= signalStrengthPoint) {
       signalStrengths.push(
@@ -82,12 +81,9 @@ function findSignalStrengthsPart2() {
       signalStrengthPoint += 40;
     }
   });
-  console.log({commands,signalStrengths} )
+  
+  console.log('RESULT CRT>>>>>>>:');
 
-sprites.forEach(sprite => console.log(sprite.join('')))
-  const sumOfSignalStrengths = findSumOfSignalStrengths(signalStrengths);
-
-  console.log({ sumOfSignalStrengths });
-  return sumOfSignalStrengths;
+  sprites.forEach((sprite) => console.log(sprite.join('')));
 }
 findSignalStrengthsPart2();
