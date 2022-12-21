@@ -64,11 +64,12 @@ function findSignalStrengthsPart2() {
   commands.forEach((command) => {
     // lit the pixels
     for (let i = 0; i < command.cycle; i++) {
-      if (
-        cycleCounter % 40 >= currentValue - 1 &&
-        cycleCounter % 40 <= currentValue + 1
-      ) {
-        sprites[Math.floor(cycleCounter / 40)][cycleCounter % 40] = '#';
+      const currentCycle = cycleCounter % 40;
+      const isPixelLit =
+        currentCycle >= currentValue - 1 && currentCycle <= currentValue + 1;
+        
+      if (isPixelLit) {
+        sprites[Math.floor(cycleCounter / 40)][currentCycle] = '#';
       }
       cycleCounter += 1;
     }
@@ -81,7 +82,7 @@ function findSignalStrengthsPart2() {
       signalStrengthPoint += 40;
     }
   });
-  
+
   console.log('RESULT CRT>>>>>>>:');
 
   sprites.forEach((sprite) => console.log(sprite.join('')));
